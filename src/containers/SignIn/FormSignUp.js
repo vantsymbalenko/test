@@ -10,6 +10,8 @@ import {
 import Validation from "react-validation-utils";
 import { Input } from "../../components/Input";
 import { Modal } from "../../components/Modal";
+import { fire } from "../../FirebaseConfig/Fire";
+import { registerNewUser } from "../../actions/registerNewUser";
 
 const Validator = new Validation({
   email: {
@@ -84,6 +86,20 @@ export default class FormSignUp extends React.Component {
     }
   };
 
+  onSubmit = e => {
+    e.preventDefault();
+    if (!Validator.isFormValid(this.state)) {
+      // validate all fields in the state to show all error messages
+      return this.setState(Validator.validate());
+    }
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(user => {
+        registerNewUser(this.state, user.user.uid);
+      });
+  };
+
   render() {
     const {
       refCode,
@@ -118,6 +134,7 @@ export default class FormSignUp extends React.Component {
           <Input
             value={lastName}
             name={`lastName`}
+            borderColor={this.getBorderColor("lastName")}
             placeholder={"last name"}
             labelText={"Last Name*"}
             onChange={this.onChange}
@@ -141,7 +158,17 @@ export default class FormSignUp extends React.Component {
             marginRight={`30px`}
             placeholder={"incl. country code"}
             onChange={this.onChange}
-          />
+          >
+              <img src={`${process.env.PUBLIC_URL}/images/usaFlag.jpg`} alt={"falg_usa"} width={"22px"} height={"14px"}/>
+              <span style={{fontFamily: "Helvetica",
+                  fontSize: "16px",
+                  fontWeight: "300",
+                  fontStyle: "normal",
+                  fontStretch: "normal",
+                  lineHeight: "1",
+                  letterSpacing: "normal",
+                  color: "#ffffff"}}>+1</span>
+          </Input>
           <Input
             value={telegramID}
             name={`telegramID`}
@@ -192,7 +219,9 @@ export default class FormSignUp extends React.Component {
             </Link>
           </Paragraph>
         </RulesText>
-        <Button>Sign Up Now</Button>
+        <Button type={"submit"} onClick={this.onSubmit}>
+          Sign Up Now
+        </Button>
       </Form>
     );
   }

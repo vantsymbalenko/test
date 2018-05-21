@@ -66,7 +66,8 @@ const Label = styled.label`
 `;
 
 const Wrapper = styled.div`
-display: flex;
+  display: flex;
+  align-items: center;
 `;
 const InputNode = styled.input`
   font-family: Helvetica, sans-serif;
