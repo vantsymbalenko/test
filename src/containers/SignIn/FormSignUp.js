@@ -10,6 +10,7 @@ import {
 import Validation from "react-validation-utils";
 import { Input } from "../../components/Input";
 import { Modal } from "../../components/Modal";
+import {CountriesSelect} from "../../components/CountriesSelect/CountriesSelect";
 import { fire } from "../../FirebaseConfig/Fire";
 import { registerNewUser } from "../../actions/registerNewUser";
 
@@ -49,7 +50,9 @@ export default class FormSignUp extends React.Component {
       mobile: "",
       telegramID: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      mobileCode: "",
+      isShowModal : true,
     });
   }
 
@@ -100,6 +103,12 @@ export default class FormSignUp extends React.Component {
       });
   };
 
+  toggleModal = () => {
+    this.setState({
+        isShowModal: !this.state.isShowModal
+    });
+  };
+
   render() {
     const {
       refCode,
@@ -113,7 +122,9 @@ export default class FormSignUp extends React.Component {
     } = this.state;
     return (
       <Form>
-        <Modal />
+          <Modal display={this.state.isShowModal} onClose={this.toggleModal}>
+            <CountriesSelect onChange={this.onChange} name={"mobileCode"}/>
+          </Modal>
         <Input
           name={`refCode`}
           value={refCode}
@@ -159,7 +170,7 @@ export default class FormSignUp extends React.Component {
             placeholder={"incl. country code"}
             onChange={this.onChange}
           >
-              <img src={`${process.env.PUBLIC_URL}/images/usaFlag.jpg`} alt={"falg_usa"} width={"22px"} height={"14px"}/>
+              <img src={`${process.env.PUBLIC_URL}/images/usaFlag.jpg`} alt={"falg_usa"} width={"22px"} height={"14px"} onClick={this.toggleModal}/>
               <span style={{fontFamily: "Helvetica",
                   fontSize: "16px",
                   fontWeight: "300",
