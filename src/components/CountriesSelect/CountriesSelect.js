@@ -12,8 +12,11 @@ export const CountriesSelect = props => {
           onChange={props.onChange}
           key={item.code31}
           countryName={item.name}
+          countryCode={item.code21}
           name={props.name}
           value={item.dialCode}
+          checked={item.dialCode===props.dialCode}
+          onClick={props.closeModal}
         />
       ))}
     </Form>
@@ -21,8 +24,16 @@ export const CountriesSelect = props => {
 };
 
 CountriesSelect.propTypes = {
+  closeModal : PropTypes.func,
+  dialCode: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func.isRequired
 };
 
-const Form = styled.section``;
+const Form = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
+  height:100%;
+`;

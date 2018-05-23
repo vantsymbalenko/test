@@ -1,31 +1,31 @@
 export const countries = [
-  {
-    code21: "AF",
-    code31: "AFG",
-    name: "Afghanistan",
-    nameOfficial: "Islamic Republic of Afghanistan",
-    dialCode: "93"
-  },
-  {
-    code21: "AX",
-    code31: "ALA",
-    name: "Åland Islands",
-    nameOfficial: "Åland Islands",
-    dialCode: "+358-18"
-  },
+  // {
+  //   code21: "AF",
+  //   code31: "AFG",
+  //   name: "Afghanistan",
+  //   nameOfficial: "Islamic Republic of Afghanistan",
+  //   dialCode: "+93"
+  // },
+  // {
+  //   code21: "AX",
+  //   code31: "ALA",
+  //   name: "Åland Islands",
+  //   nameOfficial: "Åland Islands",
+  //   dialCode: "+358-18"
+  // },
   // {
   //   code21: "AL",
   //   code31: "ALB",
   //   name: "Albania",
   //   nameOfficial: "Republic of Albania",
-  //   dialCode: "355"
+  //   dialCode: "+355"
   // },
   // {
   //   code21: "DZ",
   //   code31: "DZA",
   //   name: "Algeria",
   //   nameOfficial: "People’s Democratic Republic of Algeria",
-  //   dialCode: "213"
+  //   dialCode: "+213"
   // },
   // {
   //   code21: "AS",
@@ -1588,27 +1588,27 @@ export const countries = [
   //   nameOfficial: "Republic of Tunisia",
   //   dialCode: "216"
   // },
-  // {
-  //   code21: "TR",
-  //   code31: "TUR",
-  //   name: "Turkey",
-  //   nameOfficial: "Republic of Turkey",
-  //   dialCode: "90"
-  // },
-  // {
-  //   code21: "TM",
-  //   code31: "TKM",
-  //   name: "Turkmenistan",
-  //   nameOfficial: "Turkmenistan",
-  //   dialCode: "993"
-  // },
-  // {
-  //   code21: "TC",
-  //   code31: "TCA",
-  //   name: "Turks and Caicos Islands",
-  //   nameOfficial: "Turks and Caicos Islands",
-  //   dialCode: "+1-649"
-  // },
+  {
+    code21: "TR",
+    code31: "TUR",
+    name: "Turkey",
+    nameOfficial: "Republic of Turkey",
+    dialCode: "+90"
+  },
+  {
+    code21: "TM",
+    code31: "TKM",
+    name: "Turkmenistan",
+    nameOfficial: "Turkmenistan",
+    dialCode: "+993"
+  },
+  {
+    code21: "TC",
+    code31: "TCA",
+    name: "Turks and Caicos Islands",
+    nameOfficial: "Turks and Caicos Islands",
+    dialCode: "+1-649"
+  },
   // {
   //   code21: "TV",
   //   code31: "TUV",
@@ -1616,27 +1616,27 @@ export const countries = [
   //   nameOfficial: "Tuvalu",
   //   dialCode: "688"
   // },
-  // {
-  //   code21: "UG",
-  //   code31: "UGA",
-  //   name: "Uganda",
-  //   nameOfficial: "Republic of Uganda",
-  //   dialCode: "256"
-  // },
-  // {
-  //   code21: "UA",
-  //   code31: "UKR",
-  //   name: "Ukraine",
-  //   nameOfficial: "Ukraine",
-  //   dialCode: "380"
-  // },
-  // {
-  //   code21: "AE",
-  //   code31: "ARE",
-  //   name: "United Arab Emirates",
-  //   nameOfficial: "United Arab Emirates",
-  //   dialCode: "971"
-  // },
+  {
+    code21: "UG",
+    code31: "UGA",
+    name: "Uganda",
+    nameOfficial: "Republic of Uganda",
+    dialCode: "+256"
+  },
+  {
+    code21: "UA",
+    code31: "UKR",
+    name: "Ukraine",
+    nameOfficial: "Ukraine",
+    dialCode: "+380"
+  },
+  {
+    code21: "AE",
+    code31: "ARE",
+    name: "United Arab Emirates",
+    nameOfficial: "United Arab Emirates",
+    dialCode: "+971"
+  },
   // {
   //   code21: "GB",
   //   code31: "GBR",
@@ -1644,13 +1644,13 @@ export const countries = [
   //   nameOfficial: "United Kingdom of Great Britain and Northern Ireland",
   //   dialCode: "44"
   // },
-  // {
-  //   code21: "US",
-  //   code31: "USA",
-  //   name: "United States",
-  //   nameOfficial: "United States of America",
-  //   dialCode: "1"
-  // },
+  {
+    code21: "US",
+    code31: "USA",
+    name: "United States",
+    nameOfficial: "United States of America",
+    dialCode: "+1"
+  },
   // {
   //   code21: "UM",
   //   code31: "UMI",
@@ -1665,20 +1665,20 @@ export const countries = [
   //   nameOfficial: "Virgin Islands of the United States",
   //   dialCode: "+1-340"
   // },
-  // {
-  //   code21: "UY",
-  //   code31: "URY",
-  //   name: "Uruguay",
-  //   nameOfficial: "Eastern Republic of Uruguay",
-  //   dialCode: "598"
-  // },
-  // {
-  //   code21: "UZ",
-  //   code31: "UZB",
-  //   name: "Uzbekistan",
-  //   nameOfficial: "Republic of Uzbekistan",
-  //   dialCode: "998"
-  // },
+  {
+    code21: "UY",
+    code31: "URY",
+    name: "Uruguay",
+    nameOfficial: "Eastern Republic of Uruguay",
+    dialCode: "+598"
+  },
+  {
+    code21: "UZ",
+    code31: "UZB",
+    name: "Uzbekistan",
+    nameOfficial: "Republic of Uzbekistan",
+    dialCode: "+998"
+  },
   // {
   //   code21: "VU",
   //   code31: "VUT",
@@ -1693,13 +1693,13 @@ export const countries = [
   //   nameOfficial: "State of the Vatican City",
   //   dialCode: "379"
   // },
-  // {
-  //   code21: "VE",
-  //   code31: "VEN",
-  //   name: "Venezuela",
-  //   nameOfficial: "Bolivarian Republic of Venezuela",
-  //   dialCode: "58"
-  // },
+  {
+    code21: "VE",
+    code31: "VEN",
+    name: "Venezuela",
+    nameOfficial: "Bolivarian Republic of Venezuela",
+    dialCode: "+58"
+  },
   // {
   //   code21: "VN",
   //   code31: "VNM",

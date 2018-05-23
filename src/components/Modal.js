@@ -27,6 +27,9 @@ const CloseIcon = styled.div`
   font-size: 23px;
   font-weight: lighter;
   font-family: Helvetica-Light, sans-serif;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 const ModalBody = styled.div`
   position: fixed;

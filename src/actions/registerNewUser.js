@@ -1,8 +1,8 @@
-import firebase from "firebase";
 import { FIREBASE_COLLECTION_USER } from "../constants/appConst";
+import { fire } from "../FirebaseConfig/Fire";
 
 export const registerNewUser = (data, uid) => {
-  const firestoreDB = firebase.firestore();
+  const firestoreDB = fire.firestore();
   const settings = { timestampsInSnapshots: true };
 
   firestoreDB.settings(settings);

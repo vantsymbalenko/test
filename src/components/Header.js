@@ -1,19 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import logoImgSrc from '../images/logo.png';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import logoImgSrc from "../images/logo.png";
+import styled from "styled-components";
 
-export const Header = (props) => {
-  return(
-    <HeaderNode>
-      <Image src = {logoImgSrc}/>
+export const Header = props => {
+  return (
+    <HeaderNode toggle={props.toggle}>
+      <Image src={logoImgSrc} />
       <TextNode>{props.headerText}</TextNode>
     </HeaderNode>
   );
 };
 
 Header.propTypes = {
-  headerText : PropTypes.string
+  toggle: PropTypes.bool,
+  headerText: PropTypes.string
 };
 
 const HeaderNode = styled.header`
@@ -21,6 +22,8 @@ const HeaderNode = styled.header`
   justify-content: center;
   align-items: center;
   margin-top: 56px;
+  margin-left: ${props => (props.toggle ? "0" : "-100vw")};
+  transition: all 0.3s ease-in-out;
 `;
 const Image = styled.img`
   height: 42px;
@@ -29,8 +32,8 @@ const Image = styled.img`
 `;
 
 const TextNode = styled.span`
-  font-family: 'Helvetica Light', sans-serif;
-  font-size : 14px;
+  font-family: "Helvetica Light", sans-serif;
+  font-size: 14px;
   letter-spacing: 0.8px;
   color: #fff;
   text-transform: uppercase;

@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import firebase from "firebase";
 import { Link } from "react-router-dom";
 import {
   emailRule,
@@ -10,9 +12,10 @@ import {
 import Validation from "react-validation-utils";
 import { Input } from "../../components/Input";
 import { Modal } from "../../components/Modal";
-import {CountriesSelect} from "../../components/CountriesSelect/CountriesSelect";
+import { CountriesSelect } from "../../components/CountriesSelect/CountriesSelect";
 import { fire } from "../../FirebaseConfig/Fire";
 import { registerNewUser } from "../../actions/registerNewUser";
+import { getFlagUrl } from "../../helpers/getFlagUrl";
 
 const Validator = new Validation({
   email: {
@@ -48,11 +51,12 @@ export default class FormSignUp extends React.Component {
       email: "",
       firstName: "",
       mobile: "",
+      mobileCode: "+1",
+      countryCode: "US",
       telegramID: "",
       password: "",
       confirmPassword: "",
-      mobileCode: "",
-      isShowModal : true,
+      isShowModal: false
     });
   }
 
@@ -71,6 +75,13 @@ export default class FormSignUp extends React.Component {
         }
       }).fieldsToValidate(["password", "rePassword"]);
     }
+
+    if (name === "mobileCode") {
+      this.setState({
+        countryCode: e.target.dataset.countryCode
+      });
+    }
+
     this.setState(Validator.validate({ [name]: value }));
   };
 
@@ -99,13 +110,23 @@ export default class FormSignUp extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
-        registerNewUser(this.state, user.user.uid);
+        registerNewUser(this.state, user.user.uid).then(() => {
+          fire
+            .auth()
+            .currentUser.sendEmailVerification()
+            .then(() => {
+              this.props.toggleToLeftModal();
+            });
+        });
+      })
+      .catch(err => {
+        console.log("err", err);
       });
   };
 
   toggleModal = () => {
     this.setState({
-        isShowModal: !this.state.isShowModal
+      isShowModal: !this.state.isShowModal
     });
   };
 
@@ -121,10 +142,15 @@ export default class FormSignUp extends React.Component {
       confirmPassword
     } = this.state;
     return (
-      <Form>
-          <Modal display={this.state.isShowModal} onClose={this.toggleModal}>
-            <CountriesSelect onChange={this.onChange} name={"mobileCode"}/>
-          </Modal>
+      <Form toggle={this.props.toggle}>
+        <Modal display={this.state.isShowModal} onClose={this.toggleModal}>
+          <CountriesSelect
+            onChange={this.onChange}
+            name={"mobileCode"}
+            dialCode={this.state.mobileCode}
+            closeModal={this.toggleModal}
+          />
+        </Modal>
         <Input
           name={`refCode`}
           value={refCode}
@@ -155,6 +181,7 @@ export default class FormSignUp extends React.Component {
           <Input
             value={email}
             name={`email`}
+            type={"email"}
             placeholder={"enter email address"}
             labelText={"Email Address*"}
             onChange={this.onChange}
@@ -164,21 +191,18 @@ export default class FormSignUp extends React.Component {
         <TwoInputRows>
           <Input
             value={mobile}
+            type={"tel"}
             name={`mobile`}
             labelText={"Mobile Number*"}
             marginRight={`30px`}
-            placeholder={"incl. country code"}
+            placeholder={""}
             onChange={this.onChange}
           >
-              <img src={`${process.env.PUBLIC_URL}/images/usaFlag.jpg`} alt={"falg_usa"} width={"22px"} height={"14px"} onClick={this.toggleModal}/>
-              <span style={{fontFamily: "Helvetica",
-                  fontSize: "16px",
-                  fontWeight: "300",
-                  fontStyle: "normal",
-                  fontStretch: "normal",
-                  lineHeight: "1",
-                  letterSpacing: "normal",
-                  color: "#ffffff"}}>+1</span>
+            <ImgFlag
+              src={getFlagUrl(this.state.countryCode)}
+              onClick={this.toggleModal}
+            />
+            <DialCode>{this.state.mobileCode}</DialCode>
           </Input>
           <Input
             value={telegramID}
@@ -238,8 +262,15 @@ export default class FormSignUp extends React.Component {
   }
 }
 
+FormSignUp.propTypes = {
+  toggleToLeftModal: PropTypes.func,
+  toggle: PropTypes.bool
+};
+
 const Form = styled.form`
   padding: 17px;
+  transition: all 0.3s ease-in-out;
+  margin-left: ${props => (props.toggle ? "0" : props.toggle ? "0" : "-100vw")};
 `;
 const TwoInputRows = styled.div`
   display: flex;
@@ -340,4 +371,22 @@ const Button = styled.button`
     cursor: pointer;
     background-image: linear-gradient(to top, #4eace0, #2a64b4);
   }
+`;
+const ImgFlag = styled.img`
+  width: 24px;
+  height: 24px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const DialCode = styled.span`
+  font-family: "Helvetica", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #ffffff;
+  white-space: nowrap;
 `;
