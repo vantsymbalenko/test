@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Header } from "../../components/Header";
 import FormSignUp from "./FormSignUp";
-import { SlideModalToLeft } from "../../components/SlideModalToLeft";
+import { SlideModalToLeft } from "../../components/Modals/SlideModalToLeft";
+import {TextNode} from "../../components/Modals/TextNode";
+import {AdditionalTextNode} from "../../components/Modals/AdditionalTextNode";
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -29,6 +31,7 @@ export default class SignIn extends Component {
           show={this.state.isShowModal}
           toggleToLeftModal={this.toggleToLeftModal}
         >
+            {/*<Header tooggle={true}/>*/}
           <TextNode>
               Thanks for signing up to DRIP Beta!
               <br/>
@@ -52,34 +55,6 @@ export default class SignIn extends Component {
 }
 const Wrapper = styled.div`
   position: relative;
-`;
-const TextNode = styled.article`
-  font-family: Helvetica, sans-serif;
-  font-size: 16px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  color: #ffffff;
-  margin: 131px auto 0 auto;
-  width: 100%;
-  max-width: 343px;
-  max-height: 230px;
-  text-align:center;
-`;
-
-const AdditionalTextNode = styled.div`
-  text-align: center;
-  font-family: Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: #66688f;
-  margin-top: 33px;
 `;
 
 const Button = styled.button`

@@ -10,7 +10,7 @@ export const Input = props => {
       borderColor={props.borderColor}
     >
       <Label labelMargin={props.labelMargin}>{props.labelText}</Label>
-      <Wrapper>
+      <Wrapper rowReverse={props.rowReverse}>
         {props.children}
         <InputNode
           onChange={props.onChange}
@@ -29,7 +29,8 @@ Input.defaultProps = {
   marginRight: "0px",
   borderColor: "#51526b",
   type: "text",
-  labelMargin : "24px 0 5px 0"
+  labelMargin : "24px 0 5px 0",
+  rowReverse : false,
 };
 
 Input.propTypes = {
@@ -42,6 +43,7 @@ Input.propTypes = {
   type: PropTypes.string,
   labelMargin : PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  rowReverse: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
@@ -68,6 +70,7 @@ const Label = styled.label`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  ${props => props.rowReverse && 'flex-direction: row-reverse;'}
 `;
 const InputNode = styled.input`
   font-family: Helvetica, sans-serif;

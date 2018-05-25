@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import firebase from "firebase";
 import { Link } from "react-router-dom";
 import {
   emailRule,
@@ -11,7 +10,7 @@ import {
 } from "../../validationRules/rules";
 import Validation from "react-validation-utils";
 import { Input } from "../../components/Input";
-import { Modal } from "../../components/Modal";
+import { Modal } from "../../components/Modals/Modal";
 import { CountriesSelect } from "../../components/CountriesSelect/CountriesSelect";
 import { fire } from "../../FirebaseConfig/Fire";
 import { registerNewUser } from "../../actions/registerNewUser";

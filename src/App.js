@@ -10,7 +10,7 @@ import Login from "./containers/Login/Login";
 import SignIn from "./containers/SignUp/SignUp";
 import { NotFound } from "./components/NotFound/NotFound";
 import { Loader } from "./components/Loader/Loader";
-
+import VerifyEmail from "./components/VerifyEmail";
 /*** actions ***/
 import { setLoader } from "./actions/setLoader";
 
@@ -28,6 +28,7 @@ class App extends Component {
       <Switch key={2}>
         <Route exact path={`/login`} component={Login} />
         <Route exact path={`/sign-in`} component={SignIn} />
+        <Route exact path={`/verify-email`} component={VerifyEmail}/>
         <PrivateRoute exact path={`/`} component={Home} />
         <Route component={NotFound} />
       </Switch>
