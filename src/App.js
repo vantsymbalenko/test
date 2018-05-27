@@ -9,22 +9,13 @@ import Home from "./containers/Home/Home";
 import Login from "./containers/Login/Login";
 import SignIn from "./containers/SignUp/SignUp";
 import { NotFound } from "./components/NotFound/NotFound";
-import { Loader } from "./components/Loader/Loader";
 import VerifyEmail from "./components/VerifyEmail";
-/*** actions ***/
-import { setLoader } from "./actions/setLoader";
+import ErrorModal from './components/Modals/ErrorModal';
 
 class App extends Component {
-  componentWillMount() {
-    this.props.setLoader(true);
-  }
-  componentDidMount() {
-    this.props.setLoader(false);
-  }
-
-  render() {
+   render() {
     return [
-      <Loader isLoading={this.props.isLoading} key={1} />,
+      <ErrorModal key={1} />,
       <Switch key={2}>
         <Route exact path={`/login`} component={Login} />
         <Route exact path={`/sign-in`} component={SignIn} />
@@ -43,14 +34,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapStateToDispatch = {
-  setLoader
-};
+const mapStateToDispatch = {};
 
 export default withRouter(connect(mapStateToProps, mapStateToDispatch)(App));
 
 /*** Props Types ***/
 App.propTypes = {
-  setLoader: PropTypes.func,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool
 };

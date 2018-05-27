@@ -1,25 +1,51 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
+import Validation from "react-validation-utils";
+import { connect } from "react-redux";
 import { Input } from "../../components/Input";
 import { Link } from "react-router-dom";
 import { EXTERNAL_LINK_HELP_LOGIN_PAGE } from "../../constants/appConst";
+import { emailRule } from "../../validationRules/rules";
+import getBorderColor from "../../helpers/getBorderColor";
+import { auth } from "../../actions/auth";
+import { getUserInfo } from "../../actions/getUserInfo";
+import { PRESIGN_IN } from "../../constants/authConst";
 
-export default class FormSignIn extends React.Component {
+const Validator = new Validation({
+  email: {
+    rule: emailRule,
+    message: "Invalid email type"
+  }
+});
+
+class FormSignIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = Validator.addValidation({
       email: "",
       password: "",
       googleCode: ""
-    };
+    });
+    this.getBorderColor = getBorderColor.bind(this);
   }
   onChange = e => {
     const { name, value } = e.target;
-    this.setState({
-      [name]: value
-    });
+    this.setState(
+      Validator.validate({
+        [name]: value
+      })
+    );
   };
+  onEnter = e => {
+    e.preventDefault();
+    if (!Validator.isFormValid(this.state)) {
+      // validate all fields in the state to show all error messages
+      return this.setState(Validator.validate());
+    }
+    this.props.getUserInfo(this.state.email, this.state.password);
+  };
+
   render() {
     return (
       <Form>
@@ -29,6 +55,7 @@ export default class FormSignIn extends React.Component {
           name={"email"}
           onChange={this.onChange}
           value={this.state.email}
+          borderColor={this.getBorderColor(`email`)}
         />
         <Input
           type={"password"}
@@ -59,16 +86,32 @@ export default class FormSignIn extends React.Component {
           attempts.
         </AdditionalInfo>
         <AdditionalInfo toBottom>
-            Don't have an account?
-            <HelpLink to={`/sign-in`}>Sign Up</HelpLink>
+          Don't have an account?
+          <HelpLink to={`/sign-in`}>Sign Up</HelpLink>
         </AdditionalInfo>
-        <Button>Log In</Button>
+        <Button
+          type={`submit`}
+          onClick={this.onEnter}
+          disabled={this.props.authStatus === PRESIGN_IN}
+        >
+          Log In
+        </Button>
       </Form>
     );
   }
 }
 
 FormSignIn.propTypes = {};
+
+const mapStateToProps = state => ({
+  authStatus: state.authData.authStatus
+});
+
+const mapStateToDispatch = {
+  auth,
+  getUserInfo
+};
+export default connect(mapStateToProps, mapStateToDispatch)(FormSignIn);
 
 const Form = styled.form`
   padding: 17px;
@@ -101,6 +144,9 @@ const Button = styled.button`
   margin: auto;
   &:hover {
     cursor: pointer;
+  }
+  &[disabled] {
+    background: #1f1f2f;
   }
 `;
 
@@ -139,12 +185,14 @@ const AdditionalInfo = styled.div`
   color: #66688f;
   margin: 20px auto;
   text-align: center;
-  ${props => props.toBottom && css`
-    position: fixed;
-    bottom: 77px;
-    width: 100%;
-    left: 0; 
-  `}
+  ${props =>
+    props.toBottom &&
+    css`
+      position: fixed;
+      bottom: 77px;
+      width: 100%;
+      left: 0;
+    `};
 `;
 
 AdditionalInfo.propTypes = {

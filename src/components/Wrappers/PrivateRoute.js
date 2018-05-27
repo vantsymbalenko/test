@@ -2,13 +2,14 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { withRouter, Route, Redirect } from "react-router-dom";
+import { NOT_AUTH } from "../../constants/authConst";
 
-const PrivateRoute = ({ component: Component, isAuth, ...rest }) => {
+const PrivateRoute = ({ component: Component, authStatus, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props =>
-        isAuth ? (
+        authStatus !== NOT_AUTH ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: `/sign-in` }} />
@@ -21,7 +22,7 @@ const PrivateRoute = ({ component: Component, isAuth, ...rest }) => {
 /*** connect to Redux ***/
 const mapStateToProps = state => {
   return {
-    isAuth: state.authData.isAuth
+    authStatus: state.authData.authStatus
   };
 };
 
@@ -33,6 +34,6 @@ export default withRouter(
 
 /*** Prop Types ***/
 PrivateRoute.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
+  authStatus: PropTypes.string.isRequired,
   component: PropTypes.func.isRequired
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import {Header} from "../Header";
+import { Header } from "../Header";
 
 export const SlideModalToLeft = props => {
   return (
@@ -23,7 +23,7 @@ export const SlideModalToLeft = props => {
           />
         </svg>
       </BackButtonArrow>
-        <Header toggle={true}/>
+      <Header toggle={true} />
       {props.children}
     </ModalBody>
   );
@@ -31,7 +31,7 @@ export const SlideModalToLeft = props => {
 
 SlideModalToLeft.propTypes = {
   show: PropTypes.bool,
-    toggleToLeftModal: PropTypes.func
+  toggleToLeftModal: PropTypes.func
 };
 
 const ModalBody = styled.div`
@@ -41,6 +41,7 @@ const ModalBody = styled.div`
   top: 0;
   left: ${props => (props.show ? "0" : "100vw")};
   background: #191a2a;
+  z-index: 99;
   transition: all 0.3s ease-in-out;
 `;
 

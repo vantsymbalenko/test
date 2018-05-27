@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
@@ -9,12 +10,17 @@ import {
   passwordRule
 } from "../../validationRules/rules";
 import Validation from "react-validation-utils";
+
+/*** components ***/
 import { Input } from "../../components/Input";
 import { Modal } from "../../components/Modals/Modal";
 import { CountriesSelect } from "../../components/CountriesSelect/CountriesSelect";
-import { fire } from "../../FirebaseConfig/Fire";
+
+/*** ***/
 import { registerNewUser } from "../../actions/registerNewUser";
 import { getFlagUrl } from "../../helpers/getFlagUrl";
+import getBorderColor from "../../helpers/getBorderColor";
+import { PRESIGN_IN } from "../../constants/authConst";
 
 const Validator = new Validation({
   email: {
@@ -41,7 +47,7 @@ const Validator = new Validation({
   }
 });
 
-export default class FormSignUp extends React.Component {
+class FormSignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = Validator.addValidation({
@@ -57,6 +63,7 @@ export default class FormSignUp extends React.Component {
       confirmPassword: "",
       isShowModal: false
     });
+    this.getBorderColor = getBorderColor.bind(this);
   }
 
   onChange = e => {
@@ -84,43 +91,13 @@ export default class FormSignUp extends React.Component {
     this.setState(Validator.validate({ [name]: value }));
   };
 
-  getBorderColor = fieldName => {
-    const statuses = this.state.validationStorage[fieldName];
-    if (statuses.indexOf("validation-failed") !== -1) {
-      return "red";
-    }
-
-    if (statuses.indexOf("prevalidation-failed") !== -1) {
-      return "#51526b";
-    }
-
-    if (statuses.indexOf("validation-passed") !== -1) {
-      return "green";
-    }
-  };
-
   onSubmit = e => {
     e.preventDefault();
     if (!Validator.isFormValid(this.state)) {
       // validate all fields in the state to show all error messages
       return this.setState(Validator.validate());
     }
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => {
-        registerNewUser(this.state, user.user.uid).then(() => {
-          fire
-            .auth()
-            .currentUser.sendEmailVerification()
-            .then(() => {
-              this.props.toggleToLeftModal();
-            });
-        });
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
+    this.props.registerNewUser(this.state, this.props.toggleToLeftModal);
   };
 
   toggleModal = () => {
@@ -253,7 +230,7 @@ export default class FormSignUp extends React.Component {
             </Link>
           </Paragraph>
         </RulesText>
-        <Button type={"submit"} onClick={this.onSubmit}>
+        <Button type={"submit"} onClick={this.onSubmit} disabled={this.props.authStatus === PRESIGN_IN}>
           Sign Up Now
         </Button>
       </Form>
@@ -265,6 +242,16 @@ FormSignUp.propTypes = {
   toggleToLeftModal: PropTypes.func,
   toggle: PropTypes.bool
 };
+
+const mapStateToProps = (state) => ({
+  authStatus: state.authData.authStatus
+});
+
+const mapStateToDispatch = {
+  registerNewUser
+};
+
+export default connect(mapStateToProps, mapStateToDispatch)(FormSignUp);
 
 const Form = styled.form`
   padding: 17px;
@@ -369,6 +356,9 @@ const Button = styled.button`
   &:hover {
     cursor: pointer;
     background-image: linear-gradient(to top, #4eace0, #2a64b4);
+  }
+  &[disabled]{
+     background: #1f1f2f;
   }
 `;
 const ImgFlag = styled.img`

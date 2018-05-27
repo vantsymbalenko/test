@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import {withRouter} from 'react-router-dom';
-import PropTypes from "prop-types";
 import { SlideModalToLeft } from "./Modals/SlideModalToLeft";
 import { TextNode } from "./Modals/TextNode";
 import { AdditionalTextNode } from "./Modals/AdditionalTextNode";
